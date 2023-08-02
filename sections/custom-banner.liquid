@@ -1,0 +1,167 @@
+{% if section.settings.bannerHeight == "small" %}
+  {% assign banner-height= "400px" %}
+{% elsif section.settings.bannerHeight == "medium" %}
+  {% assign banner-height= "600px" %}
+{% elsif section.settings.bannerHeight == "large" %}
+  {% assign banner-height= "800px" %}
+{% endif %}
+
+
+<section style="    background-color: {{ section.settings.bgColor }};
+   {% if section.settings.bgImg   %} background-image:url({{ section.settings.bgImg | img_url:"2000x" }}); {% endif %}
+    min-height: {{ banner-height }};
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    background-position: center;
+    background-size: cover;
+  ">
+  <div class="banner">
+      <div>
+        <h1>{{ section.settings.bannerTitle }}</h1>
+        <p>{{ section.settings.bannerDesc }}</p>
+
+        {% if section.settings.buttonUrl %}
+        <a href="{{ section.settings.buttonUrl }}"> 
+          {%  if section.settings.cartIcon == true %}
+          <svg width="20px" role="presentation" viewBox="0 0 17 20">
+      <path d="M0 20V4.995l1 .006v.015l4-.002V4c0-2.484 1.274-4 3.5-4C10.518 0 12 1.48 12 4v1.012l5-.003v.985H1V19h15V6.005h1V20H0zM11 4.49C11 2.267 10.507 1 8.5 1 6.5 1 6 2.27 6 4.49V5l5-.002V4.49z" fill="currentColor"></path>
+    </svg>
+            {% endif %}
+          {{ section.settings.btnText }}</a>
+        {% endif %}
+      </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Banner",
+    "settings": [
+      {
+        "type":"color",
+        "id":"bgColor",
+        "label":"Section Color",
+        "default":"#eee"
+      },
+      {
+        "type":"image_picker",
+        "id":"bgImg",
+        "label":"Background Image"
+      },
+      {
+        "type":"select",
+        "id":"bannerHeight",
+        "label":"Banner Height",
+        "options": [
+          {
+            "value":"small",
+            "label":"Small"
+          },
+          {
+            "value":"medium",
+            "label":"Medium"
+          },
+          {
+            "value":"large",
+            "label":"Large"
+          }
+        ]
+        
+      },
+      {
+        "type":"color",
+        "id":"textColor",
+        "label":"Text Color"
+      },
+      {
+        "type":"text",
+        "id":"bannerTitle",
+        "label":"Banner Title",
+      "default":"Meet the Specialist Team"
+      },
+      {
+        "type":"textarea",
+        "id":"bannerDesc",
+        "label":"Banner Content",
+        "default":"If you have been diagnose or suspect a heart condition our team of cardiologist are available to help at several convenient locations."
+      },
+      {
+        "type":"url",
+        "id":"buttonUrl",
+        "label":"Button Link"
+      },
+      {
+        "type":"text",
+        "id":"btnText",
+        "label":"Button text",
+        "default":"Shop Now"
+      },
+      {
+        "type":"checkbox",
+        "id":"cartIcon",
+        "label":"Show Button Icon",
+        "default":false
+      }
+    ],
+    "presets":[
+      {
+        "name":"Banner"
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+ .banner {
+    max-width: 1200px;
+    flex-basis: 1200px;
+    padding: 20px;
+}
+  .banner div {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+.banner div h1 {
+    font-size: 60px;
+    font-weight: 800;
+    margin-bottom: 0;
+}
+.banner div p {
+    font-size: 18px;
+    max-width: 700px;
+}
+  .banner h1,
+  .banner p{
+    color:{{section.settings.textColor}};
+  }
+.banner div a {
+    border: 2px solid #333;
+    color: #fff;
+    background-color: #333;
+    padding: 8px 30px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+  .banner div a svg{}
+  
+  .banner div a:hover{
+    
+    background-color: transparent;
+     color: #333;
+  }
+  
+</style>
+   
+
+{% javascript %}
+  
+{% endjavascript %}

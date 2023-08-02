@@ -1,0 +1,133 @@
+
+
+
+ {% assign sectionTitle = section.settings.title %}
+ 
+
+<section class="featureSection">
+
+  <div class="container">
+ 
+    {% if sectionTitle != blank %}
+    <div class="title">
+      <h2>{{ sectionTitle }}</h2>
+    </div>
+    {% endif %}
+
+
+    
+    <div class="grid">
+      
+    {% assign column = 0 %}
+     
+    
+ 
+      {% for block in section.blocks %} 
+      
+      {% assign count = count | plus: 1 %} 
+       {% assign column = count %}
+        
+      <div>
+          <img src="{{ block.settings.icon | img_url:"500x" }}" alt="icon"   width="60" height="60" />
+          <h3> {{ count }} {{ block.settings.title }}</h3>
+          <p>{{ block.settings.content }}</p> 
+        </div> 
+        
+      
+      {% endfor %}
+      
+      
+        
+      
+    </div>
+  </div>
+  
+</section>
+<style>
+  .featureSection{
+    padding:20px;
+  }
+  .container{ 
+    max-width:1200px;
+    margin:auto ;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: repeat({{ column }}, 1fr);
+    gap:30px
+  }
+  .title{
+    text-align:center;
+    padding:20px 0;
+  }
+  .title h2{
+    font-size:40px;
+  }
+  .grid div {
+    padding: 40px 20px;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+  .grid div h3{ 
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+ 
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Features",
+    "settings": [
+      {
+        "type":"text",
+        "id":"title",
+        "label":"Title",
+        "default":"Our Features"
+      }
+    ],
+    "blocks":[
+      {
+        "name":"Feature",
+        "type":"Feature",
+        "limit":4,
+        "settings":[
+          {
+            "type":"image_picker",
+            "id":"icon",
+            "label":"Icon" 
+          },
+          {
+            "type":"text",
+            "id":"title",
+            "label":"Title",
+            "default":"Measure and Optimize"
+          },
+          {
+            "type":"textarea",
+            "id":"content",
+            "label":"Content",
+            "default":"Make strategic business decisions that optimize your marketing efforts with the data you need."
+          } 
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"Features"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

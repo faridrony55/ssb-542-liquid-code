@@ -1,0 +1,213 @@
+ 
+{% if product.id == section.settings.selectedproduct.id %}
+
+  
+<section class="section">
+  <div class="container">
+    <div class=" grid">
+
+      {% case section.settings.iconstyle %}
+            {% when 'borderedcircle' %}
+              <style>
+                .iconstyle { 
+                    border: 2px solid #333;
+                    border-radius: 50px;
+                    padding: 4px;  
+                }
+              </style>
+            {% when 'borderedrounded' %}
+            
+              <style>
+                .iconstyle { 
+                    border: 2px solid #333;
+                    border-radius: 4px;
+                    padding: 4px;  
+                }
+              </style>
+            {% when 'filledcircle' %}
+            
+              <style>
+                .iconstyle { 
+                    border-radius: 50px;
+                    padding: 4px;
+                    background-color: #333; 
+                  
+          fill:#fff !important
+                }
+                .cls-1,.cls-2{fill:none;stroke:#fff !important;}
+                
+              </style>
+      
+            {% when 'filledrounded' %}
+              <style>
+                .iconstyle {  
+                    border-radius: 4px;
+                    padding: 4px;
+                    background-color: #333 !important; 
+          fill:#fff !important
+                }
+        
+                
+                .cls-1,.cls-2{fill:none;stroke:#fff !important;}
+              </style>
+          {% endcase %}
+
+      {% for block in section.blocks %} 
+      {% case block.type %}
+        {% when "image" %}
+           <div style="background-color:{{ block.settings.bgcolor }}">
+            <img src="{{ block.settings.img | img_url: "100x" }}" alt="" width="" height=""> 
+            {{ block.settings.title }}
+          </div>
+      
+        {% when "icon" %}
+ 
+          <div> 
+            {% case block.settings.icon %}
+              {% when "warranty" %}  
+                {% include "featured-icon" with 'warranty'  %}
+              {% when "shipping" %}   
+                {% include "featured-icon" with 'shipping'  %}  
+              {% when "support" %}   
+                {% include "featured-icon" with 'support'  %}
+            {% endcase %}
+             
+            {{ block.settings.title }}
+          </div>
+      
+      {% endcase %}
+
+      
+        
+      {% endfor %}
+      
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Product Features",
+    "settings": [
+        {
+          "type":"product",
+          "id":"selectedproduct",
+          "label":"Display in Product"
+        },
+            {
+            "type":"radio",
+            "id":"iconstyle",
+            "label":"Icon Style",
+            "options":[
+              {
+                "label":"Bordered Circle", 
+                "value":"borderedcircle"
+              },
+              {
+                "label":"Bordered Rounded", 
+                "value":"borderedrounded"
+              },
+              {
+                "label":"Filled Circle", 
+                "value":"filledcircle"
+              },
+              {
+                "label":"Filled Rounded", 
+                "value":"filledrounded"
+              }
+            ],
+            "default":"filledrounded"
+          },
+          {
+            "type":"range",
+            "id":"iconsize",
+            "label":"Icon Size",
+            "min":30,
+            "max":200,
+            "step":2,
+            "default":30
+          }
+    ],
+    "blocks":[
+      {
+        "type":"image",
+        "name":"Image Box",
+        "limit":3,
+        "settings":[
+          {
+            "type":"image_picker",
+            "id":"img",
+            "label":"Image"
+          },
+          {
+            "type":"text",
+            "id":"title",
+            "label":"Title"
+          },
+          {
+            "type":"color",
+            "id":"bgcolor",
+            "label":"Background Color"
+          }
+        ]
+      },
+      {
+        "type":"icon",
+        "name":"Icon Box",
+        "limit":3,
+        "settings":[
+          {
+            "type":"select",
+            "id":"icon",
+            "label":"Select Icon",
+            "options":[
+              {
+                "label":"Warranty", 
+                "value":"warranty"
+              },
+              {
+                "label":"Support", 
+                "value":"support"
+              },
+              {
+                "label":"Free Shipping", 
+                "value":"shipping"
+              } 
+            ],
+            "default":"shipping"
+          },
+          {
+            "type":"text",
+            "id":"title",
+            "label":"Title"
+          }
+          
+        ]
+      }
+    ],
+    "presets":[
+      {
+        "name":"Product Features"
+      }
+    ]
+  }
+{% endschema %}
+
+<style>
+   .section{
+    padding:20px;
+  }
+  .container{ 
+    max-width:1200px;
+    margin:auto ;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:30px
+  }
+  .iconstyle{
+    height:{{section.settings.iconsize}}px
+  }
+</style>
